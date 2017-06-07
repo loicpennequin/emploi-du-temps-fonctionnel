@@ -1,0 +1,19 @@
+<div class="candidat-cell">
+    <ul>
+        <li class="candidat-cours" ng-class="getDuration(course)" ng-style='{"background-color" : getColor(course.topic)}' ng-repeat="course in candidat.courses" ng-if="courseFilter(course, day)" uib-tooltip="{{course.topic.name}} {{course.start | date : 'HH:mm'}} - {{course.end | date : 'HH:mm'}} {{course.room.name}}">
+            <button class="button-transparent button-square" ng-click="unregisterCandidat(candidat, course)">-</button>
+        </li>
+    </ul>
+    <button class="button-color1 button-square float-right" ng-click="regFormToggle()">+</button>
+</div>
+<form class="form" ng-if="regFormDisplay" ng-submit="registerCandidat(candidat)">
+    <div class="select-color1">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+        <select ng-model="regCandidat.course">
+            <option ng-repeat="course in day.courses" value="{{course.id}}">
+                {{course.topic.name}} {{course.start | date : "HH'h'mm"}} - {{course.end | date : "HH'h'mm"}}
+            </option>
+        </select>
+    </div>
+        <input class="button-color1" type="submit" value="ajouter"/>
+</form>

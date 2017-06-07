@@ -1,0 +1,47 @@
+.button
+    border-radius: 5px
+    padding: 5px
+    color: $white
+    border: none
+    text-align: center
+    &:hover
+        filter: contrast(150%)
+
+.button-disabled
+    opacity: 0.6
+
+.button-square
+    width: 30px
+    height: 30px
+    padding-bottom: 8px
+
+.button-color1
+    @extend .button
+    background: linear-gradient($color1, $color1-dark)
+    &:active
+        background: none
+        background-color: $color1-dark
+        box-shadow: none
+
+.button-color2
+    @extend .button
+    background: linear-gradient($color2, $color2-dark)
+    &:active
+        background: none
+        background-color: $color2-dark
+        box-shadow: none
+
+.button-white-color2
+    @extend .button
+    background-color: $white-half
+    color: $color2-dark
+
+.button-white-color1
+    @extend .button
+    background-color: $white-half
+    color: $color1-dark
+
+.button-transparent
+    @extend .button
+    background-color: transparent
+    color: $white

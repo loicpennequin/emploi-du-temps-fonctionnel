@@ -1,0 +1,27 @@
+<h3 class="text-center">{{day.name}}</h3>
+    <div class="course-cell" ng-repeat="course in day.courses | orderBy:'+start'" ng-style='{"background-color" : getColor(course.topic)}'>
+        <div cours-directive></div>
+    </div>
+
+<button class="button-color1 button-square" ng-click="addFormToggle()">+</button>
+
+<form class="form-color1" ng-if="addFormDisplay" ng-submit="addCourse(day)">
+    <div class="select-small select-color1">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+        <select ng-model="newCourse.topic" ng-options="t.name for t in formation.topics">
+            <option value=""disabled selected>Matière</option>
+        </select>
+    </div>
+    <div class="select-small select-color1">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+        <select ng-model="newCourse.room" ng-options="t.name for t in formation.rooms">
+            <option value=""disabled selected>Salle</option>
+        </select>
+    </div>
+    </br>
+    <label>début</label>
+    <div uib-timepicker ng-model="newCourse.start" show-meridian="false" minute-step="30"></div>
+    <label>fin</label>
+    <div uib-timepicker ng-model="newCourse.end" show-meridian="false" minute-step="30"></div>
+    <input class="button-color1" type="submit" value="ajouter"/>
+</form>

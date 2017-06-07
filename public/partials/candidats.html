@@ -1,0 +1,23 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2 col-day-bottom">
+            <ul>
+                <li class="candidat-cell" ng-repeat="candidat in candidats | orderBy:'candidat.lastname'">
+                    <span class="candidat-name">{{candidat.firstname}} {{candidat.lastname | uppercase}}</span>
+                    <span class="float-right"><button class="button-color1 button-square" ng-click="deleteCandidat(candidat.id)">-</button></span>
+                </li>
+            </ul>
+            <div class="text-center">
+                <button class="button-color1 button-square" ng-click="addCandidatFormToggle()">+</button>
+            </div>
+            <form class="form" ng-if="addCandidatFormDisplay" ng-submit="addCandidat()">
+                <input class="input-text" ng-model="newCandidat.firstname" type="text" placeholder="prénom"/>
+                <input class="input-text" ng-model="newCandidat.lastname" type="text" placeholder="nom"/>
+                <input type="submit" value="ajouter">
+            </form>
+        </div>
+        <div class="col-md-2 col-day-bottom" ng-repeat="day in week.days">
+            <div cours-candidat-directive ng-repeat="candidat in candidats"></div>
+        </div>
+    </div>
+</div>

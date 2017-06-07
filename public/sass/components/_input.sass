@@ -1,0 +1,50 @@
+.input-text
+    width: 100%
+    overflow-x: hidden
+    margin-bottom: 5px
+
+
+.select
+    overflow: hidden
+    background-color: transparent
+    width: 180px
+    border-radius: 5px
+    color: $white
+    margin: 10px auto 10px auto
+    position: relative
+
+    select
+        background: transparent
+        border: none
+        width: 208px
+        padding: 5px
+        position: relative
+        z-index: 2
+        &:active
+            border: none
+
+    span
+        position: absolute
+        top: 25%
+        right: 5px
+        z-index: 1
+
+.select-color1
+    @extend .select
+    background: linear-gradient($color1, $color1-dark)
+    option
+        background-color: $color1
+
+.select-color2
+    @extend .select
+    background: linear-gradient($color2, $color2-dark)
+    option
+        background-color: $color2
+
+.select-small
+    @extend .select
+    width: 45%
+    display: inline-block
+
+    select
+        width: 128px

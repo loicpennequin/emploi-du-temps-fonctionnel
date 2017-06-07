@@ -1,0 +1,106 @@
+<!-- Gestion des semaines -->
+<div class="section-week text-center">
+    <button class="button-color2" ng-class="{'button-disabled': isFirstWeek()}" ng-disabled="isFirstWeek()" ng-click ="prevWeek()">semaine précédente</button>
+    semaine du <span class="date">{{week.start | date : 'dd-MM-yyyy'}}</span> au <span class="date">{{week.end | date : 'dd-MM-yyyy'}}</span>
+    <button class="button-color2" ng-class="{'button-disabled': isLastWeek()}" ng-disabled="isLastWeek()" ng-click="nextWeek()">semaine suivante</button>
+    <button class="button-color2" ng-click="addWeekFormToggle()">ajouter une semaine</button>
+</div>
+<form class="form-color2 text-center" ng-if="addWeekFormDisplay" ng-submit="addWeek()">
+    <div class="weekpicker text-center">
+        <label>début</label>
+        <div uib-datepicker datepicker-options="{showWeeks: false, startingDay : 1}" ng-model="newWeek.start"></div>
+    </div>
+    <div class="weekpicker text-center">
+        <label>fin</label>
+        <div uib-datepicker datepicker-options="{showWeeks: false, startingDay : 1}"  ng-model="newWeek.end"></div>
+    </div>
+    </br>
+    <input class="button-color2" type="submit" value="ajouter">
+</form>
+
+
+<div class="container-fluid">
+    <div class="row">
+<!-- Gestion des matières-->
+        <div class="col-md-2 zone-options">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <button class="button-white-color2" ng-click="topicListToggle()">
+                        <div>COMPETENCES</div>
+                        <img src="assets/img/competences.png" alt="">
+                    </button>
+                      <div class="dropdown-list" ng-class="{'dropdown-list-collapsed' : !topicListDisplay}">
+                          <ul>
+                              <li class="list-item" ng-repeat="topic in formation.topics" ng-style='{"color" : getColor(topic), "background": toGradient(topic)}' class="text-center">
+                                  <span>{{topic.name}}</span>
+                                  <span class="float-right">
+                                      <button class="button-color2 button-square" ng-click="deleteTopic(topic.id)">-</button>
+                                  </span>
+                              </li>
+                          </ul>
+                          <button class="button-color2 button-square" ng-click="addTopicFormToggle()">+</button>
+                          <form class="form-color2" ng-if="addTopicFormDisplay" ng-submit="addTopic()">
+                              <input class="input-text" ng-model="newTopic.name" type="text" placeholder="nom de la compétence"/>
+                              <ngjs-color-picker selected-color="newTopic.color"></ngjs-color-picker>
+                              <input class="button-color2" type="submit" value="ajouter"/>
+                          </form>
+                      </div>
+                </div>
+
+<!-- Gestion des salles -->
+                <div class="col-md-12 text-center">
+                    <button ng-click="roomListToggle()" class="button-white-color2">
+                        <div>SALLES</div>
+                        <img src="assets/img/salles.png" alt="">
+                    </button>
+                    <div class="dropdown-list" ng-class="{'dropdown-list-collapsed' : !roomListDisplay}">
+                        <ul>
+                            <li class="list-item" ng-repeat="room in formation.rooms">
+                                <span>{{room.name}}</span>
+                                <span class="float-right">
+                                    <button class="button-color2 button-square" ng-click="deleteRoom(room.id)">-</button>
+                                </span>
+                            </li>
+                        </ul>
+                        <buttonclass="button-color2 button-square" ng-click="addRoomFormToggle()">+</button>
+                        <form class="form-color2" ng-if="addRoomFormDisplay" ng-submit="addRoom()">
+                            <input class="input-text" ng-model="newRoom.name" type="text" placeholder="numero de salle"/>
+                            <input class="button-color2" type="submit" value="ajouter"/>
+                        </form>
+                    </div>
+                </div>
+
+<!--Gestion des formateurs -->
+                <div class="col-md-12 text-center">
+                    <button class="button-white-color2" ng-click="topicListToggle()">
+                        <div>FORMATEURS</div>
+                        <img src="assets/img/formateurs.png" width="100px" alt="">
+                    </button>
+                      <div class="dropdown-list" ng-class="{'dropdown-list-collapsed' : !topicListDisplay}">
+                          <ul>
+                              <li class="list-item" ng-repeat="topic in formation.topics" ng-style='{"color" : getColor(topic), "background": toGradient(topic)}' class="text-center">
+                                  <span>{{topic.name}}</span>
+                                  <span class="float-right">
+                                      <button class="button-color2 button-square" ng-click="deleteTopic(topic.id)">-</button>
+                                  </span>
+                              </li>
+                          </ul>
+                          <button class="button-color2 button-square" ng-click="addTopicFormToggle()">+</button>
+                          <form class="form-color2" ng-if="addTopicFormDisplay" ng-submit="addTopic()">
+                              <input class="input-text" ng-model="newTopic.name" type="text" placeholder="nom de la compétence"/>
+                              <ngjs-color-picker selected-color="newTopic.color"></ngjs-color-picker>
+                              <input class="button-color2" type="submit" value="ajouter"/>
+                          </form>
+                      </div>
+                </div>
+            </div>
+        </div>
+
+
+<!-- JOURS-->
+        <div class="col-md-2 col-day-top" ng-repeat="day in week.days">
+            <h3 class="text-center">{{jours[$index]}}</h3>
+            <div class="text-center" listecours-directive></div>
+        </div>
+    </div>
+</div>

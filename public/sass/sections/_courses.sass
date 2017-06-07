@@ -1,0 +1,39 @@
+.col-day
+    background-color: $color1-half
+    position: relative
+    padding-top: 25px
+    border: solid $white 3px
+    color: white
+
+    h3
+        color: $color2
+        -webkit-text-stroke: 2px white
+        font-size: 2.5em
+        font-weight: 700
+        position: absolute
+        left: 50%
+        transform: translateX(-50%)
+        top: -40px
+
+.col-day-top
+    @extend .col-day
+    border-top-left-radius: 15px
+    border-top-right-radius: 15px
+    padding-bottom: 30px
+    border-bottom: none
+
+.col-day-bottom
+    @extend .col-day
+    border-bottom-left-radius: 15px
+    border-bottom-right-radius: 15px
+    padding-top: 10px
+    border-top: none
+
+.course-cell
+    margin-bottom: 5px
+    padding: 5px
+    border: solid $white 2px
+    color: white
+
+.course-infos
+    margin-bottom: 3px

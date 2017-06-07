@@ -1,0 +1,16 @@
+{
+  "name": "pop-chat",
+  "version": "0.1.0",
+  "description": "exercie d'appli d'envoi de messages pour le passage du titre pro",
+  "main": "index.js",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "bookshelf": "^0.10.3",
+    "express": "^4.15.3",
+    "knex": "^0.12.9",
+    "mysql": "^2.13.0"
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
+}

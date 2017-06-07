@@ -1,0 +1,37 @@
+<div class="course-infos">
+    <div>{{course.topic.name}}</div>
+    <div>{{course.start | date : "HH'h'mm"}} - {{course.end | date : "HH'h'mm"}}</div>
+    <div>{{course.room.name}}</div>
+</div>
+
+<span>
+    <button class="button-white-color1" ng-click="editFormToggle(); setEditCourse(course)">
+        EDIT
+    </button>
+</span>
+<span>
+    <button class="button-white-color1" ng-click="deleteCourse(course.id)">
+        SUPPR
+    </button>
+</span>
+
+<form class="form-color1" ng-if="editFormDisplay" ng-submit="updateCourse(course.id)">
+    <div class="select-small select-color1">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+        <select ng-model="editCourse.topic" ng-options="t.name for t in formation.topics">
+            <option value=""disabled selected>Matière</option>
+        </select>
+    </div>
+    <div class="select-small select-color1">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+        <select ng-model="editCourse.room" ng-options="t.name for t in formation.rooms">
+            <option value=""disabled selected>Sallee</option>
+        </select>
+    </div>
+    </br>
+    <label>début</label>
+    <div uib-timepicker ng-model="editCourse.start" show-meridian="false" minute-step="30"></div>
+    <label>fin</label>
+    <div uib-timepicker ng-model="editCourse.end" show-meridian="false" minute-step="30"></div>
+    <input class="button-color1" type="submit" value="valider"/>
+</form>
