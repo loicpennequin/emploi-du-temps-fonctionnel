@@ -84,12 +84,20 @@ var Course = Bookshelf.Model.extend({
 
     day : function(){
         return this.belongsTo(Day, 'day_id')
+    },
+
+    teacher : function(){
+        return this.belongsTo(Teacher)
     }
 });
 
 //topic model
 var Topic = Bookshelf.Model.extend({
-    tableName : 'topics'
+    tableName : 'topics',
+
+    teachers : function(){
+        return this.belongstoMany(Teacher)
+    }
 });
 
 //room model
@@ -97,7 +105,7 @@ var Room = Bookshelf.Model.extend({
     tableName: 'rooms'
 });
 
-//candidats model
+//candidate model
 var Candidat = Bookshelf.Model.extend({
     tableName : 'candidats',
 
@@ -105,6 +113,15 @@ var Candidat = Bookshelf.Model.extend({
         return this.belongsToMany(Course)
     }
 });
+
+//teacher model
+var Teacher = Bookshelf.Model.extend({
+    tableName : 'teachers',
+
+    topics : function(){
+        return this.belongsToMany(Topic)
+    }
+})
 
 
 /////////////////////////////////////////
@@ -139,6 +156,10 @@ var Candidats = Bookshelf.Collection.extend({
     model : Candidat
 });
 
+var Teachers = Bookshelf.Collection.extend({
+    model : Teacher
+});
+
 /////////////////////////////////////////
 ///////////ROUTING///////////////
 /////////////////////////////////////////
@@ -158,9 +179,9 @@ app.get('/formations', function (req, res) {
 
 app.get('/formation/:id', function (req, res) {
     Formation.forge({id: req.params.id})
-    .fetch({withRelated: ['weeks.days.courses.topic', 'weeks.days.courses.room', 'topics', 'rooms']})
-    .then(function (collection) {
-        res.json({error: false, data: collection.toJSON()});
+    .fetch({withRelated: ['weeks.days.courses.topic', 'weeks.days.courses.room', 'weeks.days.courses.teacher', 'topics', 'rooms']})
+    .then(function (formation) {
+        res.json({error: false, data: formation.toJSON()});
     })
     .catch(function (err) {
         res.status(500).json({error: true, data: {message: err.message}});
@@ -229,6 +250,7 @@ app.post('/courses', function(req, res){
         day_id: req.body.day_id,
         topic_id: req.body.topic.id,
         room_id: req.body.room.id,
+        teacher_id: req.body.teacher.id,
         start: req.body.startToMYSQL,
         end: req.body.endToMYSQL
     })
@@ -250,6 +272,7 @@ app.put('/course/:id', function (req, res) {
             day_id: course.get('day_id'),
             topic_id: req.body.topic.id || course.get('topic_id'),
             room_id: req.body.room.id || course.get('room_id'),
+            teacher_id: req.body.teacher.id || course.get('teacher_id'),
             start: req.body.startToMYSQL || course.get('start'),
             end: req.body.endToMYSQL || course.get('end')
         }, {patch: true})
@@ -353,11 +376,11 @@ app.delete('/room/:id', function (req, res) {
 
 ////////CANDIDATS
 
-app.get('/candidats', function (req, res) {
-    Candidats.forge()
-    .fetch({withRelated: ['courses.topic', 'courses.room']})
-    .then(function (collection) {
-        res.json({error: false, data: collection.toJSON()});
+app.get('/candidats/:id', function (req, res) {
+    Candidat.where({formation_id: req.params.id})
+    .fetchAll({withRelated: ['courses.topic', 'courses.room']})
+    .then(function (candidats) {
+        res.json({error: false, data: candidats.toJSON()});
     })
     .catch(function (err) {
         res.status(500).json({error: true, data: {message: err.message}});
@@ -423,7 +446,7 @@ app.post('/candidats/courses/unsub', function(req, res) {
         .fetch({withRelated: ['courses']})
         .then(function(candidat){
             candidat.courses().detach(req.body.course);
-            res.json({error: true, data: {message: 'candidate successfully unregistered'}});
+            res.json({error: false, data: {message: 'candidate successfully unregistered'}});
         })
         .catch(function(error){
             res.status(500).json({error: true, data: {message: err.message}});
@@ -432,6 +455,45 @@ app.post('/candidats/courses/unsub', function(req, res) {
     .catch(function(error){
         res.status(500).json({error: true, data: {message: err.message}});
     });
+});
+
+//////// TEACHERS
+
+app.get('/teachers/:id', function (req, res) {
+    Teacher.where({formation_id: req.params.id})
+    .fetchAll({withRelated: ['topics']})
+    .then(function (teachers) {
+        res.json({error: false, data: teachers.toJSON()});
+    })
+    .catch(function (err) {
+        res.status(500).json({error: true, data: {message: err.message}});
+    });
+});
+
+app.post('/teachers', function (req, res) {
+    var topics = req.body.topics;
+        Teacher.forge({
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            formation_id: req.body.formation_id
+        })
+        .save()
+        .then(function(teacher){
+        topics.forEach(function(topic, value){
+            Topic.forge({id: topic})
+            .fetch()
+            .then(function(topic){
+                teacher.topics().attach(topic);
+            })
+            .catch(function(error){
+                res.status(500).json({error: true, data: {message: error.message}});
+            })
+        })
+
+        })
+        .catch(function(error){
+            res.status(500).json({error: true, data: {message: error.message}});
+        });
 });
 
 //////// 404

@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2deb1
+-- version 4.7.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jun 01, 2017 at 02:36 PM
--- Server version: 5.6.30-1
--- PHP Version: 7.0.16-3
+-- Hôte : localhost
+-- Généré le :  jeu. 08 juin 2017 à 09:58
+-- Version du serveur :  5.7.18-log
+-- Version de PHP :  7.0.19
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -17,167 +19,156 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `planning`
+-- Base de données :  `planning`
 --
+CREATE DATABASE IF NOT EXISTS `planning` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `planning`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `candidats`
+-- Structure de la table `candidats`
 --
 
-CREATE TABLE `candidats` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `candidats`;
+CREATE TABLE IF NOT EXISTS `candidats` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `firstname` varchar(50) NOT NULL,
   `lastname` varchar(50) NOT NULL,
-  `formation_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `formation_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `formation_id` (`formation_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `candidats`
+-- Déchargement des données de la table `candidats`
 --
 
 INSERT INTO `candidats` (`id`, `firstname`, `lastname`, `formation_id`) VALUES
 (2, 'John', 'Doe', 1),
-(3, 'Jane', 'Doe', 1);
+(3, 'Jane', 'Doe', 1),
+(4, 'Lorem', 'Ipsum', 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `candidats_courses`
+-- Structure de la table `candidats_courses`
 --
 
-CREATE TABLE `candidats_courses` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `candidats_courses`;
+CREATE TABLE IF NOT EXISTS `candidats_courses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `course_id` int(11) NOT NULL,
-  `candidat_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+  `candidat_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `formation_id` (`course_id`),
+  KEY `candidat_id` (`candidat_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `candidats_courses`
+-- Déchargement des données de la table `candidats_courses`
 --
 
 INSERT INTO `candidats_courses` (`id`, `course_id`, `candidat_id`) VALUES
-(1, 2, 2),
-(2, 12, 3),
-(3, 12, 3),
-(4, 5, 2),
-(5, 10, 2),
-(6, 13, 2),
-(7, 1, 2),
-(8, 14, 2),
-(9, 14, 3),
-(10, 14, 3),
-(11, 10, 3),
-(12, 15, 2);
+(30, 56, 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `courses`
+-- Structure de la table `courses`
 --
 
-CREATE TABLE `courses` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `courses`;
+CREATE TABLE IF NOT EXISTS `courses` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `day_id` int(11) NOT NULL,
   `topic_id` int(11) NOT NULL,
   `room_id` int(11) NOT NULL,
-  `start` datetime NOT NULL,
-  `end` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+  `teacher_id` int(11) NOT NULL,
+  `start` datetime(3) NOT NULL,
+  `end` datetime(3) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `day_id` (`day_id`),
+  KEY `topic_id` (`topic_id`),
+  KEY `room_id` (`room_id`),
+  KEY `teacher_id` (`teacher_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `courses`
+-- Déchargement des données de la table `courses`
 --
 
-INSERT INTO `courses` (`id`, `day_id`, `topic_id`, `room_id`, `start`, `end`) VALUES
-(1, 1, 3, 1, '2017-05-31 06:00:04', '2017-05-31 08:00:04'),
-(2, 1, 1, 1, '2017-05-31 10:00:27', '2017-05-31 12:00:27'),
-(3, 2, 3, 2, '2017-05-31 06:00:03', '2017-05-31 08:00:03'),
-(4, 3, 1, 2, '2017-05-31 07:00:03', '2017-05-31 08:00:03'),
-(5, 2, 1, 1, '2017-05-30 08:00:19', '2017-05-30 10:00:19'),
-(10, 3, 3, 2, '2017-05-31 08:00:44', '2017-05-31 09:00:44'),
-(11, 3, 3, 1, '2017-05-31 13:00:37', '2017-05-31 14:00:37'),
-(12, 2, 3, 1, '2017-05-31 14:00:42', '2017-05-31 15:00:42'),
-(13, 1, 3, 2, '2017-06-01 08:00:50', '2017-06-01 10:00:50'),
-(14, 5, 1, 2, '2017-06-01 11:00:01', '2017-06-01 13:00:01'),
-(15, 56, 4, 2, '2017-06-01 10:00:06', '2017-06-01 11:00:06');
+INSERT INTO `courses` (`id`, `day_id`, `topic_id`, `room_id`, `teacher_id`, `start`, `end`) VALUES
+(56, 101, 4, 1, 3, '1000-01-01 10:00:00.000', '1000-01-01 12:00:00.000');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `days`
+-- Structure de la table `days`
 --
 
-CREATE TABLE `days` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `days`;
+CREATE TABLE IF NOT EXISTS `days` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `week_id` int(11) NOT NULL,
-  `name` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+  PRIMARY KEY (`id`),
+  KEY `week_id` (`week_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `days`
+-- Déchargement des données de la table `days`
 --
 
-INSERT INTO `days` (`id`, `week_id`, `name`) VALUES
-(1, 1, 'lundi'),
-(2, 1, 'mardi'),
-(3, 1, 'mercredi'),
-(4, 1, 'jeudi'),
-(5, 1, 'vendredi'),
-(6, 5, 'lundi'),
-(7, 5, 'mardi'),
-(8, 5, 'mercredi'),
-(9, 5, 'jeudi'),
-(10, 5, 'vendredi'),
-(46, 13, 'lundi'),
-(47, 13, 'mardi'),
-(48, 13, 'mercredi'),
-(49, 13, 'jeudi'),
-(50, 13, 'vendredi'),
-(51, 14, 'lundi'),
-(52, 14, 'mardi'),
-(53, 14, 'mercredi'),
-(54, 14, 'jeudi'),
-(55, 14, 'vendredi'),
-(56, 15, 'lundi'),
-(57, 15, 'mardi'),
-(58, 15, 'mercredi'),
-(59, 15, 'jeudi'),
-(60, 15, 'vendredi');
+INSERT INTO `days` (`id`, `week_id`) VALUES
+(101, 25),
+(102, 25),
+(103, 25),
+(104, 25),
+(105, 25),
+(106, 26),
+(107, 26),
+(108, 26),
+(109, 26),
+(110, 26);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `formations`
+-- Structure de la table `formations`
 --
 
-CREATE TABLE `formations` (
-  `id` int(11) NOT NULL,
-  `name` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+DROP TABLE IF EXISTS `formations`;
+CREATE TABLE IF NOT EXISTS `formations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `formations`
+-- Déchargement des données de la table `formations`
 --
 
 INSERT INTO `formations` (`id`, `name`) VALUES
-(1, 'Organisme1');
+(1, 'Organisme1'),
+(2, 'Organisme 2');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `rooms`
+-- Structure de la table `rooms`
 --
 
-CREATE TABLE `rooms` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `rooms`;
+CREATE TABLE IF NOT EXISTS `rooms` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
-  `formation_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `formation_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `formation_id` (`formation_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `rooms`
+-- Déchargement des données de la table `rooms`
 --
 
 INSERT INTO `rooms` (`id`, `name`, `formation_id`) VALUES
@@ -187,171 +178,127 @@ INSERT INTO `rooms` (`id`, `name`, `formation_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `topics`
+-- Structure de la table `teachers`
 --
 
-CREATE TABLE `topics` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `teachers`;
+CREATE TABLE IF NOT EXISTS `teachers` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `firstname` varchar(50) NOT NULL,
+  `lastname` varchar(50) NOT NULL,
+  `formation_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `teachers`
+--
+
+INSERT INTO `teachers` (`id`, `firstname`, `lastname`, `formation_id`) VALUES
+(2, 'Jane', 'Doe', 1),
+(3, 'Toto', 'titi', 1),
+(6, 'John', 'Doe', 1),
+(7, 'lorem', 'ipsum', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `teachers_topics`
+--
+
+DROP TABLE IF EXISTS `teachers_topics`;
+CREATE TABLE IF NOT EXISTS `teachers_topics` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `teacher_id` int(11) NOT NULL,
+  `topic_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `teachers_topics`
+--
+
+INSERT INTO `teachers_topics` (`id`, `teacher_id`, `topic_id`) VALUES
+(1, 2, 1),
+(2, 2, 3),
+(3, 3, 1),
+(4, 3, 5),
+(5, 3, 3),
+(6, 3, 4),
+(10, 6, 1),
+(11, 6, 5),
+(12, 6, 3),
+(13, 7, 4);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `topics`
+--
+
+DROP TABLE IF EXISTS `topics`;
+CREATE TABLE IF NOT EXISTS `topics` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   `color` varchar(20) NOT NULL,
-  `formation_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `formation_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `formation_id` (`formation_id`),
+  KEY `formation_id_2` (`formation_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `topics`
+-- Déchargement des données de la table `topics`
 --
 
 INSERT INTO `topics` (`id`, `name`, `color`, `formation_id`) VALUES
 (1, 'SSIAP', '#7bd148', 1),
 (3, 'SST', '#46d6db', 1),
-(4, 'Maths', '#E34D52', 1);
+(4, 'Maths', '#E34D52', 1),
+(5, 'Palpation', '#fbd75b', 1),
+(6, 'SST', '#5484ed', 2),
+(7, 'SSIAP', '#FB875B', 2);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `weeks`
+-- Structure de la table `weeks`
 --
 
-CREATE TABLE `weeks` (
-  `id` int(11) NOT NULL,
+DROP TABLE IF EXISTS `weeks`;
+CREATE TABLE IF NOT EXISTS `weeks` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `start` date NOT NULL,
   `end` date NOT NULL,
-  `formation_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+  `formation_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `org_id` (`formation_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 --
--- Dumping data for table `weeks`
+-- Déchargement des données de la table `weeks`
 --
 
 INSERT INTO `weeks` (`id`, `start`, `end`, `formation_id`) VALUES
-(1, '2017-05-22', '2017-05-28', 1),
-(5, '2017-05-28', '2017-06-03', 1),
-(13, '2017-06-04', '2017-06-10', 1),
-(14, '2017-06-11', '2017-06-17', 1),
-(15, '2017-06-18', '2017-06-24', 1);
+(25, '2017-06-12', '2017-06-18', 1),
+(26, '2017-06-19', '2017-06-25', 1);
 
 --
--- Indexes for dumped tables
+-- Contraintes pour les tables déchargées
 --
 
 --
--- Indexes for table `candidats`
---
-ALTER TABLE `candidats`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `formation_id` (`formation_id`);
-
---
--- Indexes for table `candidats_courses`
---
-ALTER TABLE `candidats_courses`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `formation_id` (`course_id`),
-  ADD KEY `candidat_id` (`candidat_id`);
-
---
--- Indexes for table `courses`
---
-ALTER TABLE `courses`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `day_id` (`day_id`),
-  ADD KEY `topic_id` (`topic_id`),
-  ADD KEY `room_id` (`room_id`);
-
---
--- Indexes for table `days`
---
-ALTER TABLE `days`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `week_id` (`week_id`);
-
---
--- Indexes for table `formations`
---
-ALTER TABLE `formations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `rooms`
---
-ALTER TABLE `rooms`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `formation_id` (`formation_id`);
-
---
--- Indexes for table `topics`
---
-ALTER TABLE `topics`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `formation_id` (`formation_id`),
-  ADD KEY `formation_id_2` (`formation_id`);
-
---
--- Indexes for table `weeks`
---
-ALTER TABLE `weeks`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `org_id` (`formation_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `candidats`
---
-ALTER TABLE `candidats`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `candidats_courses`
---
-ALTER TABLE `candidats_courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
---
--- AUTO_INCREMENT for table `courses`
---
-ALTER TABLE `courses`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
---
--- AUTO_INCREMENT for table `days`
---
-ALTER TABLE `days`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
---
--- AUTO_INCREMENT for table `formations`
---
-ALTER TABLE `formations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `rooms`
---
-ALTER TABLE `rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `topics`
---
-ALTER TABLE `topics`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `weeks`
---
-ALTER TABLE `weeks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `days`
+-- Contraintes pour la table `days`
 --
 ALTER TABLE `days`
   ADD CONSTRAINT `days_ibfk_1` FOREIGN KEY (`week_id`) REFERENCES `weeks` (`id`);
 
 --
--- Constraints for table `weeks`
+-- Contraintes pour la table `weeks`
 --
 ALTER TABLE `weeks`
   ADD CONSTRAINT `weeks_ibfk_1` FOREIGN KEY (`formation_id`) REFERENCES `formations` (`id`) ON UPDATE CASCADE;
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -1,4 +1,4 @@
-app.controller('planningCtrl', function($scope, $http, roomsFactory, topicsFactory, candidatsFactory, planningFactory){
+app.controller('planningCtrl', function($scope, $http, roomsFactory, topicsFactory, candidatsFactory, teachersFactory,  planningFactory, ){
     //////////////////////////////////////
     //////Global Variables/////
     /////////////////////////////////////
@@ -16,18 +16,21 @@ app.controller('planningCtrl', function($scope, $http, roomsFactory, topicsFacto
     d.setMinutes( 0 );
     $scope.newCourse.start = $scope.newCourse.end = $scope.editCourse.start = $scope.editCourse.end = d;
     $scope.candidats = [];
+    $scope.teachers= [];
 
 
     ////////////////////////////////////
-    /////TOGGLES///
+    /////TOGGLES///////
     ///////////////////////////////////
 
     $scope.addWeekFormDisplay = false;
     $scope.addTopicFormDisplay = false;
     $scope.addRoomFormDisplay = false;
     $scope.addCandidatFormDisplay = false;
+    $scope.addTeacherFormDisplay = false;
     $scope.topicListDisplay = false;
     $scope.roomListDisplay = false;
+    $scope.teacherListDisplay = false
 
     $scope.addWeekFormToggle = function(){
         $scope.addWeekFormDisplay = !$scope.addWeekFormDisplay;
@@ -42,7 +45,11 @@ app.controller('planningCtrl', function($scope, $http, roomsFactory, topicsFacto
     }
 
     $scope.addCandidatFormToggle = function(){
-        $scope.addCandidatFormDisplay = !    $scope.addCandidatFormDisplay;
+        $scope.addCandidatFormDisplay = !$scope.addCandidatFormDisplay;
+    }
+
+    $scope.addTeacherFormToggle = function(){
+        $scope.addTeacherFormDisplay = !$scope.addTeacherFormDisplay;
     }
 
     $scope.topicListToggle = function(){
@@ -51,6 +58,10 @@ app.controller('planningCtrl', function($scope, $http, roomsFactory, topicsFacto
 
     $scope.roomListToggle = function(){
         $scope.roomListDisplay= !$scope.roomListDisplay
+    }
+
+    $scope.teacherListToggle = function(){
+        $scope.teacherListDisplay= !$scope.teacherListDisplay
     }
 
     //////////////////////////////////////
@@ -73,6 +84,8 @@ app.controller('planningCtrl', function($scope, $http, roomsFactory, topicsFacto
         planningFactory.getFormation(formation)
             .then(function(response){
                 $scope.formation = response.data;
+                $scope.getCandidats($scope.formation);
+                $scope.getTeachers($scope.formation);
                 $scope.week = $scope.formation.weeks[$scope.weekIndex];
                 $scope.formationIsSelected = true;
             }, function(error){
@@ -223,27 +236,28 @@ app.controller('planningCtrl', function($scope, $http, roomsFactory, topicsFacto
     }
 
     //updating a course
-    //converting the start and end Dates to MySQL Time format
-    if($scope.editCourse.start.getHours() < 10 && $scope.editCourse.start.getMinutes() < 10 ){
-        $scope.editCourse.startToMYSQL = '1000-01-01 0' + $scope.editCourse.start.getHours() + ":0" + $scope.editCourse.start.getMinutes() + ":00"
-    } else if ($scope.editCourse.start.getHours() < 10 && $scope.editCourse.start.getMinutes() > 10) {
-        $scope.editCourse.startToMYSQL = '1000-01-01 0' + $scope.editCourse.start.getHours() + ":" + $scope.editCourse.start.getMinutes() + ":00"
-    } else if ($scope.editCourse.start.getHours() > 10 && $scope.editCourse.start.getMinutes() < 10) {
-        $scope.editCourse.startToMYSQL = '1000-01-01 ' + $scope.editCourse.start.getHours() + ":0" + $scope.editCourse.start.getMinutes() + ":00"
-    } else {
-        $scope.editCourse.startToMYSQL = '1000-01-01 ' + $scope.editCourse.start.getHours() + ":" + $scope.editCourse.start.getMinutes() + ":00"
-    }
 
-    if($scope.editCourse.end.getHours() < 10 && $scope.editCourse.end.getMinutes() < 10 ){
-        $scope.editCourse.endToMYSQL = '1000-01-01 0' + $scope.editCourse.end.getHours() + ":0" + $scope.editCourse.end.getMinutes() + ":00"
-    } else if ($scope.editCourse.end.getHours() < 10 && $scope.editCourse.end.getMinutes() > 10) {
-        $scope.editCourse.endToMYSQL = '1000-01-01 0' + $scope.editCourse.end.getHours() + ":" + $scope.editCourse.end.getMinutes() + ":00"
-    } else if ($scope.editCourse.end.getHours() > 10 && $scope.editCourse.end.getMinutes() < 10) {
-        $scope.editCourse.endToMYSQL = '1000-01-01 ' + $scope.editCourse.end.getHours() + ":0" + $scope.editCourse.end.getMinutes() + ":00"
-    } else {
-        $scope.editCourse.endToMYSQL = '1000-01-01 ' + $scope.editCourse.end.getHours() + ":" + $scope.editCourse.end.getMinutes() + ":00"
-    }
     $scope.updateCourse = function(id){
+        //converting the start and end Dates to MySQL Time format
+        if($scope.editCourse.start.getHours() < 10 && $scope.editCourse.start.getMinutes() < 10 ){
+            $scope.editCourse.startToMYSQL = '1000-01-01 0' + $scope.editCourse.start.getHours() + ":0" + $scope.editCourse.start.getMinutes() + ":00"
+        } else if ($scope.editCourse.start.getHours() < 10 && $scope.editCourse.start.getMinutes() > 10) {
+            $scope.editCourse.startToMYSQL = '1000-01-01 0' + $scope.editCourse.start.getHours() + ":" + $scope.editCourse.start.getMinutes() + ":00"
+        } else if ($scope.editCourse.start.getHours() > 10 && $scope.editCourse.start.getMinutes() < 10) {
+            $scope.editCourse.startToMYSQL = '1000-01-01 ' + $scope.editCourse.start.getHours() + ":0" + $scope.editCourse.start.getMinutes() + ":00"
+        } else {
+            $scope.editCourse.startToMYSQL = '1000-01-01 ' + $scope.editCourse.start.getHours() + ":" + $scope.editCourse.start.getMinutes() + ":00"
+        }
+
+        if($scope.editCourse.end.getHours() < 10 && $scope.editCourse.end.getMinutes() < 10 ){
+            $scope.editCourse.endToMYSQL = '1000-01-01 0' + $scope.editCourse.end.getHours() + ":0" + $scope.editCourse.end.getMinutes() + ":00"
+        } else if ($scope.editCourse.end.getHours() < 10 && $scope.editCourse.end.getMinutes() > 10) {
+            $scope.editCourse.endToMYSQL = '1000-01-01 0' + $scope.editCourse.end.getHours() + ":" + $scope.editCourse.end.getMinutes() + ":00"
+        } else if ($scope.editCourse.end.getHours() > 10 && $scope.editCourse.end.getMinutes() < 10) {
+            $scope.editCourse.endToMYSQL = '1000-01-01 ' + $scope.editCourse.end.getHours() + ":0" + $scope.editCourse.end.getMinutes() + ":00"
+        } else {
+            $scope.editCourse.endToMYSQL = '1000-01-01 ' + $scope.editCourse.end.getHours() + ":" + $scope.editCourse.end.getMinutes() + ":00"
+        }
         planningFactory.updateCourse($scope.editCourse, id)
             .then(function(response){
                 planningFactory.getFormation($scope.formation)
@@ -261,12 +275,15 @@ app.controller('planningCtrl', function($scope, $http, roomsFactory, topicsFacto
     }
 
     //deleting a course
-    $scope.deleteCourse = function(id){
-        planningFactory.deleteCourse(id)
+    $scope.deleteCourse = function(course){
+        planningFactory.deleteCourse(course.id)
             .then(function(response){
                 planningFactory.getFormation($scope.formation)
                     .then(function(response){
                         $scope.formation = response.data
+                        $scope.candidats.forEach(function(candidat, value){
+                            $scope.unregisterCandidat(candidat, course)
+                        })
                         $scope.week = $scope.formation.weeks[$scope.weekIndex];
                     }, function(error){
                         console.log(error);
@@ -366,15 +383,14 @@ app.controller('planningCtrl', function($scope, $http, roomsFactory, topicsFacto
     /////////////////////////////////////
 
     //fetching all candidates
-    $scope.getCandidats = function(){
-        candidatsFactory.getCandidats()
+    $scope.getCandidats = function(formation){
+        candidatsFactory.getCandidats(formation.id)
             .then(function(response){
                 $scope.candidats = response.data;
             }, function(error){
                 console.log(error);
             })
     }
-    $scope.getCandidats();
 
     //adding a new candidate
     $scope.addCandidat = function(){
@@ -402,7 +418,7 @@ app.controller('planningCtrl', function($scope, $http, roomsFactory, topicsFacto
         this.regCandidat.candidat = candidat.id
         candidatsFactory.registerCandidat(this.regCandidat)
             .then(function(response){
-                $scope.getCandidats();
+                $scope.getCandidats($scope.formation);
                 $scope.addCandidatFormDisplay = false;
             }, function(error){
                 console.log(error);
@@ -416,7 +432,7 @@ app.controller('planningCtrl', function($scope, $http, roomsFactory, topicsFacto
         $scope.unregCandidat.course = course.id;
         candidatsFactory.unregisterCandidat($scope.unregCandidat)
             .then(function(response){
-                $scope.getCandidats();
+                $scope.getCandidats($scope.formation);
                 $scope.addCandidatFormDisplay = false;
             }, function(error){
                 console.log(error);
@@ -430,5 +446,32 @@ app.controller('planningCtrl', function($scope, $http, roomsFactory, topicsFacto
             result = true
         }
         return result;
+    }
+
+    //////////////////////////////////////
+    //////////TEACHERS/////////
+    /////////////////////////////////////
+
+
+    //fetching all teachers
+    $scope.getTeachers = function(formation){
+        teachersFactory.getTeachers(formation.id)
+            .then(function(response){
+                $scope.teachers = response.data;
+            }, function(error){
+                console.log(error);
+            })
+    }
+
+    //adding a new teacher
+    $scope.addTeacher = function(){
+        this.newTeacher.formation_id = $scope.formation.id
+        teachersFactory.addTeacher(this.newTeacher)
+            .then(function(response){
+                // $scope.getTeachers($scope.formation);
+                $scope.addTeacherFormDisplay = false;
+            }, function(error){
+                console.log(error);
+            })
     }
 });

@@ -19,6 +19,14 @@
         </select>
     </div>
     </br>
+    <div class="select-color1">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+        <select ng-model="newCourse.teacher">
+            <option value=""disabled selected>Formateur</option>
+            <option ng-repeat="teacher in teachers | teacherFilter:newCourse.topic" ng-value="{{teacher}}">{{teacher.firstname}} {{teacher.lastname}}</option>
+            <option value=""disabled selected>Formateur</option>
+        </select>
+    </div>
     <label>début</label>
     <div uib-timepicker ng-model="newCourse.start" show-meridian="false" minute-step="30"></div>
     <label>fin</label>

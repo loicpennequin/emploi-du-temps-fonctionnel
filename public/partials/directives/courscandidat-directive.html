@@ -1,7 +1,6 @@
 <div class="candidat-cell">
     <ul>
-        <li class="candidat-cours" ng-class="getDuration(course)" ng-style='{"background-color" : getColor(course.topic)}' ng-repeat="course in candidat.courses" ng-if="courseFilter(course, day)" uib-tooltip="{{course.topic.name}} {{course.start | date : 'HH:mm'}} - {{course.end | date : 'HH:mm'}} {{course.room.name}}">
-            <button class="button-transparent button-square" ng-click="unregisterCandidat(candidat, course)">-</button>
+        <li class="candidat-cours" ng-class="getDuration(course)" ng-style='{"background-color" : getColor(course.topic)}' ng-repeat="course in candidat.courses" ng-if="courseFilter(course, day)" uib-tooltip="{{course.topic.name}} {{course.start | date : 'HH:mm'}} - {{course.end | date : 'HH:mm'}} {{course.room.name}} {{course.teacher.firstname}} {{cours.teacher.lastname}}"  ng-click="unregisterCandidat(candidat, course)"> &nbsp;
         </li>
     </ul>
     <button class="button-color1 button-square float-right" ng-click="regFormToggle()">+</button>

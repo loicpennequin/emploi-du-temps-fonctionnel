@@ -1,8 +1,8 @@
 app.factory ('candidatsFactory', function($q, $http){
     return {
-        getCandidats : function(){
+        getCandidats : function(id){
             var deferred= $q.defer();
-            $http.get('http://localhost:8000/candidats')
+            $http.get('http://localhost:8000/candidats/' + id)
                 .then(function(response){
                 deferred.resolve(response.data);
             }).catch(function(error){

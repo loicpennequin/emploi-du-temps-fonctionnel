@@ -1,1 +1,1 @@
-var app = angular.module('planningApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ngjsColorPicker']);
+var app = angular.module('planningApp', ['ngAnimate', 'ngSanitize', 'ui.bootstrap', 'ngjsColorPicker', 'checklist-model']);

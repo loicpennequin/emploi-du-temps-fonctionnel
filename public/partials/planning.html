@@ -62,7 +62,7 @@
                                 </span>
                             </li>
                         </ul>
-                        <buttonclass="button-color2 button-square" ng-click="addRoomFormToggle()">+</button>
+                        <button class="button-color2 button-square" ng-click="addRoomFormToggle()">+</button>
                         <form class="form-color2" ng-if="addRoomFormDisplay" ng-submit="addRoom()">
                             <input class="input-text" ng-model="newRoom.name" type="text" placeholder="numero de salle"/>
                             <input class="button-color2" type="submit" value="ajouter"/>
@@ -72,23 +72,29 @@
 
 <!--Gestion des formateurs -->
                 <div class="col-md-12 text-center">
-                    <button class="button-white-color2" ng-click="topicListToggle()">
+                    <button class="button-white-color2" ng-click="teacherListToggle()">
                         <div>FORMATEURS</div>
                         <img src="assets/img/formateurs.png" width="100px" alt="">
                     </button>
-                      <div class="dropdown-list" ng-class="{'dropdown-list-collapsed' : !topicListDisplay}">
+                      <div class="dropdown-list" ng-class="{'dropdown-list-collapsed' : !teacherListDisplay}">
                           <ul>
-                              <li class="list-item" ng-repeat="topic in formation.topics" ng-style='{"color" : getColor(topic), "background": toGradient(topic)}' class="text-center">
-                                  <span>{{topic.name}}</span>
+                              <li class="list-item" ng-repeat="teacher in teachers" class="text-center">
+                                  <span>{{teacher.firstname}} {{teacher.lastname}}</span>
                                   <span class="float-right">
                                       <button class="button-color2 button-square" ng-click="deleteTopic(topic.id)">-</button>
                                   </span>
+                                  <ul class="text-left small-list">
+                                      <li ng-repeat="topic in teacher.topics" ng-style='{"color" : getColor(topic)}'>{{topic.name}}</li>
+                                  </ul>
                               </li>
                           </ul>
-                          <button class="button-color2 button-square" ng-click="addTopicFormToggle()">+</button>
-                          <form class="form-color2" ng-if="addTopicFormDisplay" ng-submit="addTopic()">
-                              <input class="input-text" ng-model="newTopic.name" type="text" placeholder="nom de la compétence"/>
-                              <ngjs-color-picker selected-color="newTopic.color"></ngjs-color-picker>
+                          <button class="button-color2 button-square" ng-click="addTeacherFormToggle()">+</button>
+                          <form class="form-color2" ng-if="addTeacherFormDisplay" ng-submit="addTeacher()">
+                              <input class="input-text" ng-model="newTeacher.firstname" type="text" placeholder="prénom"/>
+                              <input class="input-text" ng-model="newTeacher.lastname" type="text" placeholder="nom"/>
+                              <label ng-repeat="topic in formation.topics">
+                                  <input type="checkbox" checklist-model="newTeacher.topics" checklist-value="topic.id"> {{topic.name}}
+                              </label>
                               <input class="button-color2" type="submit" value="ajouter"/>
                           </form>
                       </div>

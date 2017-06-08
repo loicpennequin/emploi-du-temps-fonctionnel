@@ -44,7 +44,7 @@
 .dropdown-list {
   overflow: hidden;
   transition: all 0.5s linear;
-  max-height: 450px; }
+  max-height: 1000px; }
 
 .dropdown-list-collapsed {
   max-height: 0; }
@@ -72,6 +72,7 @@
   overflow: hidden;
   background-color: transparent;
   width: 180px;
+  max-width: 90%;
   border-radius: 5px;
   color: whitesmoke;
   margin: 10px auto 10px auto;
@@ -217,7 +218,8 @@ h2 {
 .candidat-cours {
   display: inline-block;
   text-align: center;
-  border: solid 1px white; }
+  border: solid 1px white;
+  cursor: pointer; }
 
 .candidat-name {
   font-size: 1.3em; }
@@ -253,5 +255,9 @@ ul {
 
 .float-right {
   float: right; }
+
+.small-list {
+  font-size: 0.9em;
+  font-weight: normal; }
 
 /*# sourceMappingURL=main.css.map */

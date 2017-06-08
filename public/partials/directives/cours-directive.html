@@ -2,6 +2,7 @@
     <div>{{course.topic.name}}</div>
     <div>{{course.start | date : "HH'h'mm"}} - {{course.end | date : "HH'h'mm"}}</div>
     <div>{{course.room.name}}</div>
+    <div>Formateur : {{course.teacher.firstname}} {{course.teacher.lastname}}</div>
 </div>
 
 <span>
@@ -10,7 +11,7 @@
     </button>
 </span>
 <span>
-    <button class="button-white-color1" ng-click="deleteCourse(course.id)">
+    <button class="button-white-color1" ng-click="deleteCourse(course)">
         SUPPR
     </button>
 </span>
@@ -28,7 +29,14 @@
             <option value=""disabled selected>Sallee</option>
         </select>
     </div>
-    </br>
+    <div class="select-color1">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+        <select ng-model="editCourse.teacher">
+            <option value=""disabled selected>Formateur</option>
+            <option ng-repeat="teacher in teachers | teacherFilter:editCourse.topic" ng-value="{{teacher}}">{{teacher.firstname}} {{teacher.lastname}}</option>
+            <option value=""disabled selected>Salle</option>
+        </select>
+    </div>
     <label>début</label>
     <div uib-timepicker ng-model="editCourse.start" show-meridian="false" minute-step="30"></div>
     <label>fin</label>
