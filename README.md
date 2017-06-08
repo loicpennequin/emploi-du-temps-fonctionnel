@@ -38,6 +38,9 @@ Ouvrir le fichier app.js à la racine du projet à l'aide de votre de code de vo
 Démarrer un serveur web de développement à la racine du projet
     node app.js
 
+se rendre à l'adresse suivante :
+    http://localhost:8000
+
 ## Todo-List
 
 * ajouter la méthode pour supprimer un formateur
