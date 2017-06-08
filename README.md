@@ -40,7 +40,7 @@ Démarrer un serveur web de développement à la racine du projet
 
 ## Todo-List
 
-*ajouter la méthode pour supprimer un formateur
-*calculer le nombre d'heures hebdomadaires d'un candidat
-*mettre à jour les cours du candidat lorsque l'on édite un cours
-*ajouter le nom du formateur dans le tooltip des cours des candidats
+* ajouter la méthode pour supprimer un formateur
+* calculer le nombre d'heures hebdomadaires d'un candidat
+* mettre à jour les cours du candidat lorsque l'on édite un cours
+* ajouter le nom du formateur dans le tooltip des cours des candidats
