@@ -1,6 +1,6 @@
-#Gestionnaire de planning hebdomadaire pour organismes de formation
+# Gestionnaire de planning hebdomadaire pour organismes de formation
 
-##Installation
+## Installation
 
 ### Télécharger nodeJS
 
